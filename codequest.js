@@ -22,9 +22,17 @@
     blockSize = size;
   }
 
-  function putBlock(x, y) {
+  function putBlock(x, y, color) {
     canvasContext.strokeStyle = 'black';
-    canvasContext.fillStyle = 'red';              
+    if (typeof color === 'string') {
+    	canvasContext.fillStyle = color;
+    }
+    else if (Object.prototype.toString.call(color) === '[object Array]') {
+    	canvasContext.fillStyle = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+    }
+    else {
+    	canvasContext.fillStyle = 'red';
+    }
     canvasContext.fillRect(x * blockSize + 0.5, y * blockSize + 0.5, blockSize, blockSize);
     canvasContext.strokeRect(x * blockSize + 0.5, y * blockSize + 0.5, blockSize, blockSize);
   }    
@@ -45,4 +53,3 @@ document.addEventListener("DOMContentLoaded",
     run();
   }
 );
-  
