@@ -34,12 +34,15 @@
   window.putBlock = putBlock;
 })();
 
-document.body.onload = function() { 	
-  if (typeof setup !== "function") { 
-    createCanvas(600, 600);
-  }  
-  else {
-  	setup();
+document.addEventListener("DOMContentLoaded", 
+  function() { 	
+    if (typeof setup !== "function") { 
+      createCanvas(600, 600);
+    }  
+    else {
+      setup();
+    }
+    run();
   }
-  run();
-}
+);
+  
