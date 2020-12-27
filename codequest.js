@@ -128,7 +128,7 @@
 
   function startUp() {
     if (typeof Setup !== "function") {
-      createGrid(20, 20, 'black');
+      createGrid(20, 20, 'white');
     }
     else {
       Setup();
@@ -136,7 +136,7 @@
     
     Grid.draw();
 
-		if (typeof PreRun === "function") {
+    if (typeof PreRun === "function") {
       PreRun();
     }
     if (noLoop) {
