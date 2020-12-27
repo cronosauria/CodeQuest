@@ -23,7 +23,7 @@
   }
 
   function pixelsPerSecond(pixels) {
-    return Math.trunc((1 / 60) * pixels);
+    return (1 / 60) * pixels;
   }
 
   function setBlockSize(value) {
@@ -64,6 +64,9 @@
         x = x * blockSize;
         y = y * blockSize;
       }
+      
+      x = Math.trunc(x);
+      y = Math.trunc(y);
 
       context.fillRect(x, y, blockSize, blockSize);
       context.strokeRect(x + .5, y + .5, blockSize - 1, blockSize - 1);
@@ -104,6 +107,7 @@
 
   function putBlock(x, y, color) {
   	var block = new Block(x, y, color);
+    block.updatePositions();
     block.draw();
     objects.push(block);
     return block;
