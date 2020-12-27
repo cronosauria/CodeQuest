@@ -5,6 +5,12 @@
   var objects = [];  
   var canvas = null;
   var context = null;
+  //var blockDefaultColor = 'red';
+  //var blockDefaultStrokeColor = 'black';
+  //var gridDefaultColor = 'yellow';
+  var blockDefaultColor = '#D92B41';
+  var blockDefaultStrokeColor = 'black';
+  var gridDefaultColor = '#F0DA50';  
 
   function valueTofillStyle(value, def) {
   	var ret;
@@ -41,7 +47,7 @@
   function Block(x, y, color) {
   	this.x = x;
     this.y = y;
-    this.color = 'red';
+    this.color = blockDefaultColor;
     if (color) {
       this.color = color;
     }
@@ -57,8 +63,8 @@
       var x = this.x;
       var y = this.y;
       
-      context.strokeStyle = 'black';
-      context.fillStyle = valueTofillStyle(this.color, 'red');
+      context.strokeStyle = blockDefaultStrokeColor;
+      context.fillStyle = valueTofillStyle(this.color, this.color);
 
       if (!noBlockCoord) {
         x = x * blockSize;
@@ -83,7 +89,7 @@
     this.boundTop = 0;
     this.boundRight = width - 1;
     this.boundBottom = height - 1;
-    this.color = 'white';
+    this.color = gridDefaultColor;
     this.width = width;
     this.height = height;
     
@@ -132,7 +138,7 @@
 
   function startUp() {
     if (typeof Setup !== "function") {
-      createGrid(20, 20, 'white');
+      createGrid(20, 20);
     }
     else {
       Setup();
