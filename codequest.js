@@ -168,14 +168,20 @@
     }
 	}
 
-  window.StartUp = startUp;
-  window.BlockSize = blockSize;
-  window.SetBlockSize = setBlockSize;
-  window.SetNoGridCoord = SetNoGridCoord;
-  window.SetNoLoop = setNoLoop;
-  window.CreateGrid = createGrid;
-  window.PutBlock = putBlock;
-  window.PixelsPerSecond = pixelsPerSecond;
+  var exports = {
+    StartUp: startUp,
+    BlockSize: blockSize,
+    SetBlockSize: setBlockSize,
+    SetNoGridCoord: SetNoGridCoord,
+    SetNoLoop: setNoLoop,
+    CreateGrid: createGrid,
+    PutBlock: putBlock,
+    PixelsPerSecond: pixelsPerSecond
+  }
+  
+  for (var i in exports) {
+    window[i] = exports[i];
+  }
 })();
 
 document.addEventListener("DOMContentLoaded", StartUp);
