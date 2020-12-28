@@ -1,4 +1,4 @@
-(function() {
+(function() { 
   var blockSize = 30;
   var noBlockCoord = false;
   var noLoop = true;
@@ -10,7 +10,6 @@
   var gridDefaultColumns = 10;
   var gridDefaultRows = 10;
   var gridDefaultColor = '#F0DA50';
-
 
   function valueTofillStyle(value, def) {
   	var ret;
@@ -138,35 +137,45 @@
     window.Grid = new _Grid(canvas.width, canvas.height, color);
   }
 
-  function startUp() {
+  function startUp() {    
     if (typeof Setup !== "function") {
       createGrid(gridDefaultColumns, gridDefaultRows);
     }
     else {
       Setup();
     }
-
+    
     Grid.draw();
 
-    if (typeof PreRun === "function") {
-      PreRun();
-    }
-    if (noLoop) {
-    	Run();
-    }
-    else {
-      function animationFrame(){
-      	Grid.clear();
-      	RunInLoop();
-        for (var i in objects) {
-          objects[i].updatePositions();
-          objects[i].draw();
+    function run() {     
+      if (typeof PreRun === "function") {
+        PreRun();
+      }
+      if (noLoop) {
+        Run();
+      }
+      else {
+        function animationFrame(){
+          Grid.clear();
+          Run();
+          for (var i in objects) {
+            objects[i].updatePositions();
+            objects[i].draw();
+          }
+          window.requestAnimationFrame(animationFrame);
         }
         window.requestAnimationFrame(animationFrame);
       }
-      window.requestAnimationFrame(animationFrame);
-    }
-	}
+    }  
+    
+    run();
+    
+    // window.onkeydown = function(event) {
+      // if (event.keyCode == 32) {
+        // run();
+      // }
+    // }
+	}  
 
   var exports = {
     StartUp: startUp,
@@ -182,6 +191,6 @@
   for (var i in exports) {
     window[i] = exports[i];
   }
+  
+  document.addEventListener("DOMContentLoaded", StartUp);
 })();
-
-document.addEventListener("DOMContentLoaded", StartUp);
