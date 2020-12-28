@@ -168,13 +168,13 @@
       }
     }  
     
-    run();
+    //run();
     
-    // window.onkeydown = function(event) {
-      // if (event.keyCode == 32) {
-        // run();
-      // }
-    // }
+    window.onkeydown = function(event) {
+      if (event.keyCode == 32) {
+        run();
+      }
+    }
 	}  
 
   var exports = {
