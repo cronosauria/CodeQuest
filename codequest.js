@@ -2,15 +2,15 @@
   var blockSize = 30;
   var noBlockCoord = false;
   var noLoop = true;
-  var objects = [];  
+  var objects = [];
   var canvas = null;
   var context = null;
-  //var blockDefaultColor = 'red';
-  //var blockDefaultStrokeColor = 'black';
-  //var gridDefaultColor = 'yellow';
   var blockDefaultColor = '#D92B41';
   var blockDefaultStrokeColor = 'black';
-  var gridDefaultColor = '#F0DA50';  
+  var gridDefaultColumns = 10;
+  var gridDefaultRows = 10;
+  var gridDefaultColor = '#F0DA50';
+
 
   function valueTofillStyle(value, def) {
   	var ret;
@@ -36,7 +36,7 @@
     blockSize = value;
   }
 
-  function setNoBlockCoord(value) {
+  function SetNoGridCoord(value) {
   	noBlockCoord = value;
   }
 
@@ -53,16 +53,18 @@
     }
 
     this.updatePositions = function() {
-      this.left = this.x;
-      this.top = this.y;
-      this.right = this.left + blockSize - 1;
-      this.bottom = this.top + blockSize - 1;
+      this.left = Math.round(this.x);
+      this.top = Math.round(this.y);
+      this.right = Math.round(this.left + blockSize - 1);      
+      this.bottom = Math.round(this.top + blockSize - 1);
+      this.gridX = Math.round(this.x / blockSize);
+      this.gridY = Math.round(this.y / blockSize);
     }
 
     this.draw = function() {
       var x = this.x;
       var y = this.y;
-      
+
       context.strokeStyle = blockDefaultStrokeColor;
       context.fillStyle = valueTofillStyle(this.color, this.color);
 
@@ -70,7 +72,7 @@
         x = x * blockSize;
         y = y * blockSize;
       }
-      
+
       x = Math.trunc(x);
       y = Math.trunc(y);
 
@@ -85,24 +87,24 @@
 	}
 
   function _Grid(width, height, color) {
-    this.boundLeft = 0;
-    this.boundTop = 0;
-    this.boundRight = width - 1;
-    this.boundBottom = height - 1;
+    this.left = 0;
+    this.top = 0;
+    this.right = width - 1;
+    this.bottom = height - 1;
     this.color = gridDefaultColor;
     this.width = width;
     this.height = height;
-    
+
     if (color) {
       this.color = valueTofillStyle(color);
-    }    
-    
+    }
+
     this.draw = function() {
       if (this.color) {
         context.fillStyle = this.color;
         context.fillRect(0, 0, this.width, this.height);
-      }    
-    }    
+      }
+    }
 
     this.clear = function() {
       context.clearRect(0, 0, this.width, this.height);
@@ -118,32 +120,32 @@
     objects.push(block);
     return block;
   }
-  
+
   function createGrid(cols, rows, color) {
     canvas = document.createElement('canvas');
     document.body.appendChild(canvas);
     canvas.width = cols * blockSize;
     canvas.height = rows * blockSize;
     canvas.style.position = 'absolute';
-    
+
     context = canvas.getContext("2d");
     context.imageSmoothingEnabled = false;
     context.mozImageSmoothingEnabled = false;
     context.oImageSmoothingEnabled = false;
     context.webkitImageSmoothingEnabled = false;
-    context.msImageSmoothingEnabled = false; 
-    
+    context.msImageSmoothingEnabled = false;
+
     window.Grid = new _Grid(canvas.width, canvas.height, color);
   }
 
   function startUp() {
     if (typeof Setup !== "function") {
-      createGrid(20, 20);
+      createGrid(gridDefaultColumns, gridDefaultRows);
     }
     else {
       Setup();
-    }       
-    
+    }
+
     Grid.draw();
 
     if (typeof PreRun === "function") {
@@ -165,11 +167,11 @@
       window.requestAnimationFrame(animationFrame);
     }
 	}
-  
-  window.StartUp = startUp;  
-  window.BlockSize = blockSize;  
+
+  window.StartUp = startUp;
+  window.BlockSize = blockSize;
   window.SetBlockSize = setBlockSize;
-  window.SetNoBlockCoord = setNoBlockCoord;
+  window.SetNoGridCoord = SetNoGridCoord;
   window.SetNoLoop = setNoLoop;
   window.CreateGrid = createGrid;
   window.PutBlock = putBlock;
